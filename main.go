@@ -53,7 +53,7 @@ func main() {
 
 	//6.启动服务
 	srv := &http.Server{
-		Addr:    fmt.Sprintf("%d", viper.GetInt("app.port")),
+		Addr:    fmt.Sprintf("%v:%d", viper.GetString("app.host"), viper.GetInt("app.port")),
 		Handler: r,
 	}
 
