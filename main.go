@@ -23,6 +23,7 @@ import (
 func main() {
 
 	var fileName string
+	// ./ 是当前的 project 的目录，不是 .go 对应的目录
 	flag.StringVar(&fileName, "conf", "./config.yaml", "配置文件")
 	flag.Parse()
 
@@ -45,7 +46,7 @@ func main() {
 	zap.L().Debug("logger init success...")
 
 	//3.初始化mysql
-	if err := mysql.Init(); err != nil {
+	if err := mysql.Init(settings.Conf.Mysql); err != nil {
 		fmt.Printf("init mysql failed, err:%v\n", err)
 		return
 	}

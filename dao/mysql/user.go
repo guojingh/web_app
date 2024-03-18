@@ -10,12 +10,6 @@ import (
 
 const secret = "www.jiayan.com"
 
-var (
-	ErrorUserExist       = errors.New("用户已存在")
-	ErrorUserNotExist    = errors.New("用户不存在")
-	ErrorInvalidPassword = errors.New("密码错误")
-)
-
 // CheckUserExist 把每一步数据库封装成函数 待logic进行逻辑处理
 func CheckUserExist(username string) (err error) {
 	sqlStr := `select count(user_id) from user where username = ?`
@@ -58,10 +52,18 @@ func Login(user *models.User) (err error) {
 		//查询数据库错误
 		return err
 	}
-	//判断密码是否正确d
+	//判断密码是否正确
 	password := encryptPassword(oPassword)
 	if user.Password != password {
 		return ErrorInvalidPassword
 	}
+	return
+}
+
+// GetUserByID 根据ID获取用户信息
+func GetUserByID(uid int64) (user *models.User, err error) {
+	user = new(models.User)
+	sqlStr := `select user_id, username from user where user_id = ?`
+	err = db.Get(user, sqlStr, uid)
 	return
 }

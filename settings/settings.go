@@ -23,6 +23,8 @@ type App struct {
 	StartTime string `mapstructure:"start_time"`
 	MachineID int64  `mapstructure:"machine_id"`
 	Port      int    `mapstructure:"port"`
+	Page      int64  `mapstructure:"page"`
+	Size      int64  `mapstructure:"size"`
 }
 
 type Log struct {

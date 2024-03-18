@@ -6,6 +6,8 @@ app:
   start_time: "2024-03-07"
   machine_id: 1
   port: 8082
+  page: 1
+  size: 10
 
 log:
   level: "debug"
