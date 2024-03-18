@@ -2,7 +2,6 @@ package routes
 
 import (
 	"net/http"
-	"time"
 	"web_app/controller"
 	"web_app/logger"
 	"web_app/middlewares"
@@ -17,7 +16,14 @@ func SetupRouter(mode string) *gin.Engine {
 	}
 
 	r := gin.New()
-	r.Use(logger.GinLogger(), logger.GinRecovery(true), middlewares.RateLimitMiddleware(time.Second*2, 1))
+	//r.Use(logger.GinLogger(), logger.GinRecovery(true), middlewares.RateLimitMiddleware(time.Second*2, 1))
+	r.Use(logger.GinLogger(), logger.GinRecovery(true))
+
+	r.LoadHTMLFiles("./templates/index.html")
+	r.Static("/static", "./static")
+	r.GET("/", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "index.html", nil)
+	})
 
 	v1 := r.Group("/api/v1")
 	// 注册业务路由
