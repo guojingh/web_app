@@ -16,18 +16,34 @@ log:
   max_age: 30
   max_backups: 7
 
+#mysql:
+#  host: "192.168.222.135"
+#  port: 3306
+#  user: "root"
+#  password: "123456"
+#  db_name: "bluebull"
+#  max_open_conns: 200
+#  max_idle_conns: 11
+
 mysql:
-  host: "192.168.222.131"
+  host: "192.168.222.134"
   port: 3306
   user: "root"
   password: "123456"
-  db_name: "bluebull"
+  db_name: "blog"
   max_open_conns: 200
   max_idle_conns: 11
 
+#redis:
+#  host: "192.168.222.131"
+#  port: 6379
+#  db: 0
+#  password: "123456"
+#  pool_size: 100
+
 redis:
-  host: "192.168.222.131"
+  host: "192.168.222.134"
   port: 6379
   db: 0
-  password: "123456"
+  #password: "123456"
   pool_size: 100

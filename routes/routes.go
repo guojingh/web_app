@@ -18,7 +18,6 @@ func SetupRouter(mode string) *gin.Engine {
 	r := gin.New()
 	//r.Use(logger.GinLogger(), logger.GinRecovery(true), middlewares.RateLimitMiddleware(time.Second*2, 1))
 	r.Use(logger.GinLogger(), logger.GinRecovery(true))
-
 	r.LoadHTMLFiles("./templates/index.html")
 	r.Static("/static", "./static")
 	r.GET("/", func(c *gin.Context) {
@@ -26,21 +25,27 @@ func SetupRouter(mode string) *gin.Engine {
 	})
 
 	v1 := r.Group("/api/v1")
+	v1.Use(middlewares.Cors())
 	// 注册业务路由
 	v1.POST("/signup", controller.SignUpHandler)
 	// 登录
 	v1.POST("/login", controller.LoginHandler)
+	// 获取帖子列表
+	v1.GET("/posts", controller.GetPostListHandler)
+
 	// 使用JWT中间件
 	v1.Use(middlewares.JWTAuthMiddleware())
-
-	v1.GET("/community", controller.CommunityHandler)
-	v1.GET("/community/:id", controller.CommunityDetailHandler)
-	v1.GET("/post/:id", controller.GetPostDetailHandler)
-	v1.GET("/posts", controller.GetPostListHandler)
-	//根据时间或者分数获取帖子列表
-	v1.GET("/posts2", controller.GetPostListHandler2)
 	//贴子分类
 	{
+		// 获取社区
+		v1.GET("/community", controller.CommunityHandler)
+		// 社区详情分类
+		v1.GET("/community/:id", controller.CommunityDetailHandler)
+		// 获取贴子详情
+		v1.GET("/post/:id", controller.GetPostDetailHandler)
+		//根据时间或者分数获取帖子列表
+		v1.GET("/posts2", controller.GetPostListHandler2)
+		// 创建帖子
 		v1.POST("/post", controller.CreatePostHandler)
 		//投票
 		v1.POST("/vote", controller.PostVoteController)

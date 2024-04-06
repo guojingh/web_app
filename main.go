@@ -4,7 +4,6 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	"go.uber.org/zap"
 	"log"
 	"net/http"
 	"os"
@@ -18,6 +17,8 @@ import (
 	"web_app/pkg/snowflake"
 	"web_app/routes"
 	"web_app/settings"
+
+	"go.uber.org/zap"
 )
 
 func main() {
@@ -59,6 +60,7 @@ func main() {
 	}
 	defer redis.Close()
 
+	//5.雪花算法初始化
 	if err := snowflake.Init(settings.Conf.App.StartTime, settings.Conf.App.MachineID); err != nil {
 		fmt.Printf("init snowflake failed, err:%v\n", err)
 	}

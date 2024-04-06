@@ -1,10 +1,6 @@
 package logger
 
 import (
-	"github.com/gin-gonic/gin"
-	"go.uber.org/zap"
-	"go.uber.org/zap/zapcore"
-	"gopkg.in/natefinch/lumberjack.v2"
 	"net"
 	"net/http"
 	"net/http/httputil"
@@ -13,9 +9,16 @@ import (
 	"strings"
 	"time"
 	"web_app/settings"
+
+	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
+	"gopkg.in/natefinch/lumberjack.v2"
 )
 
 func Init(cfg *settings.Log, mode string) (err error) {
+
+	//配置日志写入规则
 	writeSyncer := getLogWriter(
 		/*		viper.GetString("log.filename"),
 				viper.GetInt("log.max_size"),
@@ -31,6 +34,7 @@ func Init(cfg *settings.Log, mode string) (err error) {
 		cfg.MaxSize,
 		cfg.MaxBackups,
 	)
+	//配置日志输出格式
 	encoder := getEncoder()
 	var l = new(zapcore.Level)
 	//err = l.UnmarshalText([]byte(viper.GetString("log.level")))
@@ -60,6 +64,7 @@ func Init(cfg *settings.Log, mode string) (err error) {
 	return
 }
 
+// 配置日志输出格式
 func getEncoder() zapcore.Encoder {
 	//json 格式
 	//return zapcore.NewJSONEncoder(zap.NewProductionEncoderConfig())

@@ -1,12 +1,14 @@
 package snowflake
 
 import (
-	sf "github.com/bwmarrin/snowflake"
 	"time"
+
+	sf "github.com/bwmarrin/snowflake"
 )
 
 var node *sf.Node
 
+// Init 雪花算法初始化
 func Init(startTime string, machineId int64) (err error) {
 	var st time.Time
 	st, err = time.Parse("2006-01-02", startTime)
