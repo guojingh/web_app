@@ -1,0 +1,8 @@
+.idea/
+go.sum
+.vscode/
+.DS_Store
+coverage.out
+log/
+*.log
+vendor/

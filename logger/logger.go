@@ -1,11 +1,6 @@
 package logger
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/spf13/viper"
-	"go.uber.org/zap"
-	"go.uber.org/zap/zapcore"
-	"gopkg.in/natefinch/lumberjack.v2"
 	"net"
 	"net/http"
 	"net/http/httputil"
@@ -13,23 +8,53 @@ import (
 	"runtime/debug"
 	"strings"
 	"time"
+	"web_app/settings"
+
+	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
+	"gopkg.in/natefinch/lumberjack.v2"
 )
 
-func Init() (err error) {
+func Init(cfg *settings.Log, mode string) (err error) {
+
+	//配置日志写入规则
 	writeSyncer := getLogWriter(
-		viper.GetString("log.filename"),
-		viper.GetInt("log.max_size"),
-		viper.GetInt("log.max_backups"),
-		viper.GetInt("log.max_age"),
+		/*		viper.GetString("log.filename"),
+				viper.GetInt("log.max_size"),
+				viper.GetInt("log.max_backups"),
+				viper.GetInt("log.max_age"),*/
+
+		/*		settings.Conf.Log.FileName,
+				settings.Conf.Log.MaxSize,
+				settings.Conf.Log.MaxBackups,
+				settings.Conf.Log.MaxAge,*/
+		cfg.FileName,
+		cfg.MaxAge,
+		cfg.MaxSize,
+		cfg.MaxBackups,
 	)
+	//配置日志输出格式
 	encoder := getEncoder()
 	var l = new(zapcore.Level)
-	err = l.UnmarshalText([]byte(viper.GetString("log.level")))
+	//err = l.UnmarshalText([]byte(viper.GetString("log.level")))
+	err = l.UnmarshalText([]byte(settings.Conf.Log.Level))
 
 	if err != nil {
 		return
 	}
-	core := zapcore.NewCore(encoder, writeSyncer, l)
+
+	var core zapcore.Core
+	if mode == "dev" {
+		//开发模式日志输出到终端
+		consoleEncoder := zapcore.NewConsoleEncoder(zap.NewDevelopmentEncoderConfig())
+		core = zapcore.NewTee(
+			zapcore.NewCore(encoder, writeSyncer, l),
+			zapcore.NewCore(consoleEncoder, zapcore.Lock(os.Stdout), zap.DebugLevel),
+		)
+	} else {
+		core = zapcore.NewCore(encoder, writeSyncer, l)
+	}
 
 	//logger = zap.New(core, zap.AddCaller())
 	lg := zap.New(core, zap.AddCaller())
@@ -39,6 +64,7 @@ func Init() (err error) {
 	return
 }
 
+// 配置日志输出格式
 func getEncoder() zapcore.Encoder {
 	//json 格式
 	//return zapcore.NewJSONEncoder(zap.NewProductionEncoderConfig())

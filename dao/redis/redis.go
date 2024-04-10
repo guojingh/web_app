@@ -2,27 +2,40 @@ package redis
 
 import (
 	"fmt"
+	"web_app/settings"
+
 	"github.com/go-redis/redis"
-	"github.com/spf13/viper"
 )
 
-var rdb *redis.Client
+var (
+	client *redis.Client
+	Nil    = redis.Nil
+)
 
+// Init redis 的初始化
 func Init() (err error) {
-	rdb = redis.NewClient(&redis.Options{
+	client = redis.NewClient(&redis.Options{
+		/*		Addr: fmt.Sprintf("%s:%d",
+				viper.GetString("redis.host"),
+				viper.GetInt("redis.port"),
+			),*/
+		/*		Password: viper.GetString("redis.password"), // 密码
+				DB:       viper.GetInt("redis.db"),          // 数据库
+				PoolSize: viper.GetInt("redis.pool_size"), */ // 连接池大小
 		Addr: fmt.Sprintf("%s:%d",
-			viper.GetString("redis.host"),
-			viper.GetInt("redis.port"),
+			settings.Conf.Redis.Host,
+			settings.Conf.Redis.Port,
 		),
-		Password: viper.GetString("redis.password"), // 密码
-		DB:       viper.GetInt("redis.db"),          // 数据库
-		PoolSize: viper.GetInt("redis.pool_size"),   // 连接池大小
+		Password: settings.Conf.Redis.Password,
+		DB:       settings.Conf.Redis.DB,
+		PoolSize: settings.Conf.Redis.PoolSize,
 	})
 
-	_, err = rdb.Ping().Result()
+	_, err = client.Ping().Result()
 	return
 }
 
+// Close 关闭 redis 连接
 func Close() {
-	_ = rdb.Close()
+	_ = client.Close()
 }
