@@ -12,6 +12,7 @@ var (
 	Nil    = redis.Nil
 )
 
+// Init redis 的初始化
 func Init() (err error) {
 	client = redis.NewClient(&redis.Options{
 		/*		Addr: fmt.Sprintf("%s:%d",
@@ -34,6 +35,7 @@ func Init() (err error) {
 	return
 }
 
+// Close 关闭 redis 连接
 func Close() {
 	_ = client.Close()
 }

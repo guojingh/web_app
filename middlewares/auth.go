@@ -1,11 +1,12 @@
 package middlewares
 
 import (
-	"github.com/gin-gonic/gin"
-	"go.uber.org/zap"
 	"strings"
 	"web_app/controller"
 	"web_app/pkg/jwt"
+
+	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 )
 
 // JWTAuthMiddleware 基于JWT的认证中间件

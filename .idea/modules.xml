@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../../blue_plus/bluebell-plus/bluebell_frontend/.idea/bluebell_frontend.iml" filepath="$PROJECT_DIR$/../../blue_plus/bluebell-plus/bluebell_frontend/.idea/bluebell_frontend.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/web_app.iml" filepath="$PROJECT_DIR$/.idea/web_app.iml" />
     </modules>
   </component>

@@ -1,10 +1,11 @@
 package redis
 
 import (
-	"github.com/go-redis/redis"
 	"strconv"
 	"time"
 	"web_app/models"
+
+	"github.com/go-redis/redis"
 )
 
 func getIDsFromKey(key string, page, size int64) ([]string, error) {

@@ -2,10 +2,11 @@ package redis
 
 import (
 	"errors"
-	"github.com/go-redis/redis"
 	"math"
 	"strconv"
 	"time"
+
+	"github.com/go-redis/redis"
 )
 
 /* 投票的几种情况
