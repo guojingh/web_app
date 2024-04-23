@@ -16,7 +16,7 @@ func SetupRouter(mode string) *gin.Engine {
 	}
 
 	r := gin.New()
-	//r.Use(logger.GinLogger(), logger.GinRecovery(true), middlewares.RateLimitMiddleware(time.Second*2, 1))
+	//r.Use(logger.GinL	ogger(), logger.GinRecovery(true), middlewares.RateLimitMiddleware(time.Second*2, 1))
 	r.Use(logger.GinLogger(), logger.GinRecovery(true))
 	r.LoadHTMLFiles("./templates/index.html")
 	r.Static("/static", "./static")

@@ -2,11 +2,13 @@ package mysql
 
 import (
 	"fmt"
+
 	_ "github.com/go-sql-driver/mysql"
 	"go.uber.org/zap"
 
-	"github.com/jmoiron/sqlx"
 	"web_app/settings"
+
+	"github.com/jmoiron/sqlx"
 )
 
 var db *sqlx.DB
